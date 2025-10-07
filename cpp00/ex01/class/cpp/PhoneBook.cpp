@@ -1,4 +1,4 @@
-#include "PhoneBook.hpp"
+#include "../hpp/PhoneBook.hpp"
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -89,6 +89,7 @@ void PhoneBook::Add()
 
 void PhoneBook::Search()
 {
+    std::string input;
     std::cout << "\e[1;95mid\e[0;36m" << std::setw(8) << "|";
     std::cout << "\e[1;95mfirst name\e[0;36m"<< "|";
     std::cout << "\e[1;95mlast name\e[0;36m" << std::setw(2) << "|";
@@ -102,4 +103,6 @@ void PhoneBook::Search()
         std::cout << ContactList[i].NickName << std::endl;
     }
     std::cout << "\e[0m";
+    std::getline(std::cin, input);
+
 }

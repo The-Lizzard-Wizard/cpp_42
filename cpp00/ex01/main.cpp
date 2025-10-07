@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "PhoneBook.hpp"
+#include "class/hpp/PhoneBook.hpp"
 
 
 int main()
@@ -10,7 +10,7 @@ int main()
     PhoneBook Book;
     while (1)
     {
-        std::cout << ":";
+        std::cout << ">";
         std::getline(std::cin, input);
         if (input.compare("EXIT") == 0)
             std::exit(0);

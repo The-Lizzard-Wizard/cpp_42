@@ -1,6 +1,6 @@
 NAME = PhoneBook
-DEPS = PhoneBook.hpp
-SRC = main.cpp PhoneBook.cpp
+DEPS = class/hpp/PhoneBook.hpp class/hpp/Contact.hpp
+SRC = main.cpp class/cpp/Contact.cpp class/cpp/PhoneBook.cpp
 CC = c++ -Wall -Wextra -Werror -g3 -std=c++98
 
 .PHONY: all clean fclean re
