@@ -5,10 +5,23 @@
 class Contact
 {
     public:
+        Contact() {
+            FirstName = "";
+            LastName = "";
+            NickName = "";
+            PhoneNumber = "";
+            DarkestSecret = "";
+        }
         Contact(std::string PFirstName, std::string PLastName,
             std::string PNickName, std::string PPhoneNumber,
-            std::string PDarkestSecret);
-    private:
+            std::string PDarkestSecret) 
+        {
+            FirstName = PFirstName;
+            LastName = PLastName;
+            NickName = PNickName;
+            PhoneNumber = PPhoneNumber;
+            DarkestSecret = PDarkestSecret;
+        }
         std::string FirstName;
         std::string LastName;
         std::string NickName;
@@ -19,8 +32,15 @@ class Contact
 class PhoneBook
 {
     public:
-        PhoneBook();
-        Contact Add();
+        PhoneBook() {
+            NbContact = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                ContactList[i] = Contact("", "", "", "", "");
+            }
+        }
+        void Add();
+        int  confirm();
         void Search();
     private:
         Contact ContactList[8];
