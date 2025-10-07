@@ -17,6 +17,8 @@ int main()
         if (input.compare("ADD") == 0)
             Book.Add();
         if (input.compare("SEARCH") == 0)
+        {
             Book.Search();
+        }
     }
 }

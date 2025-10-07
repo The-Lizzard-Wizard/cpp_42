@@ -94,15 +94,33 @@ void PhoneBook::Search()
     std::cout << "\e[1;95mfirst name\e[0;36m"<< "|";
     std::cout << "\e[1;95mlast name\e[0;36m" << std::setw(2) << "|";
     std::cout << "\e[1;95mnicknme\e[0;36m" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << "===========================================" << std::endl;
     for (int i = 0; i < 8; i++)
     {
-        std::cout << i+1 << std::setw(9) << "|";
-        std::cout << ContactList[i].FirstName << std::setw((10 - ContactList[i].FirstName.length()) + 1) << "|";
-        std::cout << ContactList[i].LastName << std::setw((10 - ContactList[i].LastName.length()) + 1) << "|";
-        std::cout << ContactList[i].NickName << std::endl;
-    }
-    std::cout << "\e[0m";
-    std::getline(std::cin, input);
+        std::string FirstName = ContactList[i].FirstName;
+        std::string LastName = ContactList[i].LastName;
+        std::string NickName = ContactList[i].NickName;
 
+        std::cout << i+1 << std::setw(9) << "|";
+        if (FirstName.length() <= 10)
+            std::cout << FirstName << std::setw((10 - FirstName.length()) + 1) << "|";
+        else
+        {
+            std::cout << FirstName.substr(0, 9) << "." << "|";
+        }
+        if (LastName.length() <= 10)
+            std::cout << LastName << std::setw((10 - LastName.length()) + 1) << "|";
+        else
+        {
+            std::cout << LastName.substr(0, 9) << "." << "|";
+        }
+        if (NickName.length() <= 10)
+            std::cout << NickName << std::endl;
+        else
+        {
+            std::cout << NickName.substr(0, 9) << "." << std::endl;;
+        }
+    }
+    std::cout << "\e[0mSelect a Contact\n>";
+    std::getline(std::cin, input);
 }
