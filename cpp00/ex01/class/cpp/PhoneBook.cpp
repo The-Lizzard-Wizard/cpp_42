@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <stdlib.h>
 
 int PhoneBook::confirm()
 {
@@ -101,7 +102,10 @@ void PhoneBook::Search()
         std::string LastName = ContactList[i].LastName;
         std::string NickName = ContactList[i].NickName;
 
-        std::cout << i+1 << std::setw(9) << "|";
+        if (FirstName.compare("") != 0)
+            std::cout << i+1 << std::setw(9) << "|";
+        else
+            std::cout << std::setw(10) << "|";
         if (FirstName.length() <= 10)
             std::cout << FirstName << std::setw((10 - FirstName.length()) + 1) << "|";
         else
@@ -121,6 +125,17 @@ void PhoneBook::Search()
             std::cout << NickName.substr(0, 9) << "." << std::endl;;
         }
     }
-    std::cout << "\e[0mSelect a Contact\n>";
+    std::cout << "\e[0mSelect a Contact ID:";
     std::getline(std::cin, input);
+    if (input.length() > 1 || isalnum(input.c_str()[0]) == 0 || ((atoi(input.c_str()) - 1) < 0 || (atoi(input.c_str()) - 1) > 7))
+    {
+        std::cout << "The ID must be a number between 1 and 8" << std::endl;
+        return ;
+    }
+    if (ContactList[atoi(input.c_str()) - 1].FirstName.compare("") == 0)
+    {
+        std::cout << "There are no contact registered with this ID" << std::endl;
+        return ;
+    }
+    ContactList[atoi(input.c_str()) - 1].DisplayContact();
 }

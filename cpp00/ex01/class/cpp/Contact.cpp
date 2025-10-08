@@ -4,6 +4,11 @@
 
 void Contact::DisplayContact()
 {
+    std::cout << "First name : " << FirstName << std::endl;
+    std::cout << "Last name : " << LastName << std::endl;
+    std::cout << "Nickname : " << NickName << std::endl;
+    std::cout << "Phone number : " << PhoneNumber << std::endl;
+    std::cout << "Darkest secret : " << DarkestSecret << std::endl;
 }
 
 Contact::Contact()
