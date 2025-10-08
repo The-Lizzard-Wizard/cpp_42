@@ -1,5 +1,5 @@
 NAME = Zombie
-SRC = main.cpp class/cpp/Zombie.cpp
+SRC = main.cpp class/cpp/Zombie.cpp randomChump.cpp newZombie.cpp
 DEPS = Zombie.h class/hpp/Zombie.hpp
 CC = c++ -Wall -Wextra -Werror -std=c++98
 
@@ -7,7 +7,7 @@ CC = c++ -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
-$(NAME): Makefile $(SRC)
+$(NAME): Makefile $(DEPS) $(SRC)
 	$(CC) $(SRC) -o $(NAME)
 
 clean:
