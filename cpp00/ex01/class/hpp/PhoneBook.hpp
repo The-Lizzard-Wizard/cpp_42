@@ -6,13 +6,7 @@
 class PhoneBook
 {
     public:
-        PhoneBook() {
-            NbContact = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                ContactList[i] = Contact("", "", "", "", "");
-            }
-        }
+        PhoneBook();
         void Add();
         int  confirm();
         void Search();
