@@ -63,7 +63,7 @@ void PhoneBook::Add()
 	while (1)
 	{
 		std::cout << "Nickname :";
-		std::getline(std::cin, LastName);
+		std::getline(std::cin, NickName);
 		if (std::cin.eof())
 			std::exit(1);
 		if (NickName.compare("") == 0)
