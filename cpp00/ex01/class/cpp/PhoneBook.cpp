@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <stdlib.h>
+#include <cstdlib>
 
 PhoneBook::PhoneBook()
 {
