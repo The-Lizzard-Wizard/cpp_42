@@ -4,9 +4,9 @@
 
 int main()
 {
-    harl a;
-    a.complain("DEBUG");
-    a.complain("INFO");
-    a.complain("WARNING");
-    a.complain("ERROR");
+    Harl a;
+    a.Complain("DEBUG");
+    a.Complain("INFO");
+    a.Complain("WARNING");
+    a.Complain("ERROR");
 }

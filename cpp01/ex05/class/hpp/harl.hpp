@@ -1,13 +1,13 @@
 #include <string>
 
-class harl
+class Harl
 {
 	public:
-		harl();
-		void complain(std::string level);
+		Harl();
+		void Complain(std::string level);
 	private: 
-		void DEBUG(void);
-		void info(void);
-		void warning(void);
-		void error(void);
+		void Debug(void);
+		void Info(void);
+		void Warning(void);
+		void Error(void);
 };
