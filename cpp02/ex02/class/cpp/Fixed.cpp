@@ -1,7 +1,9 @@
 #include "../hpp/Fixed.hpp"
 #include <iostream>
-#include <math.h>
+#include <cmath>
+//#include <bool.h>
 
+//constructor and destructor
 
 Fixed::Fixed()
 {
@@ -27,6 +29,10 @@ Fixed::Fixed(const Fixed &src)
 	fixedPoint = src.getRawBits();
 }
 
+Fixed::~Fixed(){ std::cout << "Destructor called\n"; }
+
+//operator
+
 Fixed &Fixed::operator=(const Fixed &newF)
 {
 	std::cout << "Copy assignment operator called\n";
@@ -37,7 +43,102 @@ Fixed &Fixed::operator=(const Fixed &newF)
 	return (*this);
 }
 
-Fixed::~Fixed(){ std::cout << "Destructor called\n"; }
+Fixed Fixed::operator+(const Fixed &b)
+{
+	return (Fixed(this->toFloat() + b.toFloat()));
+}
+
+Fixed Fixed::operator-(const Fixed &b)
+{
+	return (Fixed(this->toFloat() - b.toFloat()));
+}
+
+Fixed &Fixed::operator++()
+{
+	this->fixedPoint++;
+	return (*this);
+}
+
+Fixed &Fixed::operator--()
+{
+	this->fixedPoint--;
+	return (*this);
+}
+
+Fixed Fixed::operator++(int)
+{
+	Fixed tmp(*this);
+	this->fixedPoint++;
+	return (tmp);
+}
+
+Fixed Fixed::operator--(int)
+{
+	Fixed tmp(*this);
+	this->fixedPoint--;
+	return (tmp);
+}
+
+
+Fixed Fixed::operator/(const Fixed &b)
+{
+	return (Fixed(this->toFloat() / b.toFloat()));
+}
+
+Fixed Fixed::operator*(const Fixed &b)
+{
+	return (Fixed(this->toFloat() * b.toFloat()));
+}
+
+bool Fixed::operator>(const Fixed &b) const
+{
+	if (this->getRawBits() > b.getRawBits())
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator<(const Fixed &b) const
+{
+	if (this->getRawBits() < b.getRawBits())
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator>=(const Fixed &b) const
+{
+	if (this->getRawBits() >= b.getRawBits())
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator<=(const Fixed &b) const
+{
+	if (this->getRawBits() <= b.getRawBits())
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator==(const Fixed &b) const
+{
+	if (this->getRawBits() == b.getRawBits())
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator!=(const Fixed &b) const
+{
+	if (this->getRawBits() != b.getRawBits())
+		return (true);
+	return (false);
+}
+
+std::ostream& operator<<(std::ostream& stream, const Fixed &fix)
+{
+	stream << fix.toFloat();
+	return (stream);
+}
+
+//mumbers functions
 
 int Fixed::getRawBits( void ) const
 {
@@ -64,8 +165,15 @@ int Fixed::toInt( void ) const
 	return (ret);
 }
 
-std::ostream& operator<<(std::ostream& stream, const Fixed &fix)
+const Fixed& Fixed::min(const Fixed &a, const Fixed &b)
 {
-	stream << fix.toFloat();
-	return (stream);
+	if (a < b)
+		return (a);
+	return (b);
+}
+const Fixed& Fixed::max(const Fixed &a, const Fixed &b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }
