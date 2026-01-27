@@ -5,8 +5,7 @@ ClapTrap::ClapTrap(std::string pName) : Name(pName)
 {
 	HitPoint = 10;
 	EnergyPoint = 10;
-	AttackDamage = 10;
-	nbClap++;
+	AttackDamage = 0;
 }
 
 ClapTrap::ClapTrap()
@@ -14,46 +13,46 @@ ClapTrap::ClapTrap()
 	HitPoint = 10;
 	EnergyPoint = 10;
 	AttackDamage = 10;
-	Name = "ClapTrap_" + nbClap;
-	nbClap++;
+	Name = "ClapTrap";
 }
 
-ClapTrap::~ClapTrap()
-{
+ClapTrap::~ClapTrap() {}
 
-}
+std::string	ClapTrap::getName() { return (Name); }
 
-std::string	ClapTrap::getName()
-{
+unsigned int ClapTrap::getHitPoint() { return (HitPoint); }
 
-}
+unsigned int ClapTrap::getEnergyPoint() { return (EnergyPoint); }
 
-unsigned int ClapTrap::getHitPoint()
-{
-
-}
-
-unsigned int ClapTrap::getEnergyPoint()
-{
-
-}
-
-unsigned int ClapTrap::getAttackDamage()
-{
-
-}
+unsigned int ClapTrap::getAttackDamage() { return (AttackDamage); }
 
 void ClapTrap::attack(const std::string& target)
 {
-	std::cout << "ClapTrap " << Name << " attacks " << target << ", causing " << AttackDamage << " points of damage!" << std::endl;
+	if (EnergyPoint > 0)
+		EnergyPoint--;
+	if (EnergyPoint > 0)
+		std::cout << "ClapTrap " << Name << " attacks " << target << ", causing " << AttackDamage << " points of damage!" << std::endl;
+	else
+		std::cout << "ClapTrap " << Name << " don't have enough enegy for attack" << std::endl;
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
 {
-
+	HitPoint -= amount;
+	if (HitPoint < 0)
+		HitPoint = 0;
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
 {
-
+	if (EnergyPoint > 0)
+		EnergyPoint--;
+	if (EnergyPoint > 0)
+		std::cout << "ClapTrap " << Name << " repairs itself" << std::endl;
+	else
+	{
+		std::cout << "ClapTrap " << Name << " don't have enough enegy for repairs" << std::endl;
+		return ;
+	}
+	HitPoint += amount;
 }

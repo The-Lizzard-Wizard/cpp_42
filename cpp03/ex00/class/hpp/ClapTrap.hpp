@@ -18,7 +18,6 @@ class ClapTrap
 		void takeDamage(unsigned int amount);
 		void beRepaired(unsigned int amount);
 	private:
-		static int nbClap = 0;
 		std::string	Name;
 		unsigned int HitPoint;
 		unsigned int EnergyPoint;
