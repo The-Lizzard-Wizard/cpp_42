@@ -18,6 +18,16 @@ ClapTrap::ClapTrap()
 
 ClapTrap::~ClapTrap() {}
 
+ClapTrap &ClapTrap::operator=(ClapTrap &newClap)
+{
+	if (this == &newClap)
+		return (*this);
+	this->EnergyPoint = newClap.EnergyPoint;
+	this->HitPoint = newClap.HitPoint;
+	this->AttackDamage = newClap.AttackDamage;
+	return (*this);
+}
+
 std::string	ClapTrap::getName() { return (Name); }
 
 unsigned int ClapTrap::getHitPoint() { return (HitPoint); }

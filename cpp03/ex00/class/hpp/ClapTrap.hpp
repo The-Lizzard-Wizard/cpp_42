@@ -9,8 +9,7 @@ class ClapTrap
 		ClapTrap();
 		ClapTrap(std::string pName);
 		~ClapTrap();
-		//TO DO :
-		//= operator
+		ClapTrap &operator=(ClapTrap &newClap);
 
 		std::string	getName();
 		unsigned int getHitPoint();
