@@ -12,17 +12,11 @@ Point::Point(const Point &src) : x(src.x), y(src.y) {}
 Point &Point::operator=(const Point &newF)
 {
 	(void)newF;
-	return (*this);
+	return(*this);
 }
 
 Point::~Point() {}
 
-Fixed Point::getX(void)
-{
-	return (x);
-}
+Fixed Point::getX(void) { return (this->x); }
 
-Fixed Point::getY(void)
-{
-	return (y);
-}
+Fixed Point::getY(void) { return (this->y); }
