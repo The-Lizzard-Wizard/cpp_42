@@ -1,3 +1,5 @@
+#ifndef CLAPTRAP_HPP
+# define CLAPTRAP_HPP
 
 #include <string>
 
@@ -23,3 +25,5 @@ class ClapTrap
 		unsigned int EnergyPoint;
 		unsigned int AttackDamage;
 };
+
+#endif //CLAPTRAP_HPP
