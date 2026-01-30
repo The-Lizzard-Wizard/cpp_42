@@ -25,6 +25,17 @@ ScavTrap::ScavTrap(ScavTrap &src) : ClapTrap()
 	*this = src;
 }
 
+ScavTrap &ScavTrap::operator=(ScavTrap &newScav)
+{
+	if (this == &newScav)
+		return (*this);
+	this->AttackDamage = newScav.GetAttackDamage();
+	this->HitPoint = newScav.GetHitPoint();
+	this->EnergyPoint = newScav.GetEnergyPoint();
+	this->Name = newScav.GetName();
+	return (*this);
+}
+
 ScavTrap::~ScavTrap() {}
 
 void ScavTrap::attack(const std::string& target)

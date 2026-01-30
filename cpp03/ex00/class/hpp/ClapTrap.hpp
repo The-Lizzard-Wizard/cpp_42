@@ -12,7 +12,7 @@ class ClapTrap
 		~ClapTrap();
 		ClapTrap &operator=(ClapTrap &newClap);
 
-		std::string	getName();
+		std::string	GetName();
 		unsigned int GetHitPoint();
 		unsigned int GetEnergyPoint();
 		unsigned int GetAttackDamage();

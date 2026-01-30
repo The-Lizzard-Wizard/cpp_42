@@ -36,7 +36,7 @@ ClapTrap &ClapTrap::operator=(ClapTrap &newClap)
 	return (*this);
 }
 
-std::string	ClapTrap::getName() { return (Name); }
+std::string	ClapTrap::GetName() { return (Name); }
 
 unsigned int ClapTrap::GetHitPoint() { return (HitPoint); }
 
