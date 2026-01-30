@@ -27,7 +27,10 @@ ClapTrap::ClapTrap(ClapTrap &src)
 	Name = src.Name;
 }
 
-ClapTrap::~ClapTrap() {}
+ClapTrap::~ClapTrap()
+{
+	std::cout << "ClapTrap destructor called" << std::endl;
+}
 
 ClapTrap &ClapTrap::operator=(ClapTrap &newClap)
 {

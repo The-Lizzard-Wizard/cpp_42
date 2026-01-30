@@ -5,8 +5,8 @@ FragTrap::FragTrap() : ClapTrap()
 {
 	std::cout << "FragTrap default constroctor called" << std::endl;
 	this->SetHitPoint(100);
-	this->SetEnergyPoint(50);
-	this->SetAttackDamage(20);
+	this->SetEnergyPoint(100);
+	this->SetAttackDamage(30);
 	this->SetName("FragTrap");
 }
 
@@ -14,8 +14,8 @@ FragTrap::FragTrap(std::string pName) : ClapTrap()
 {
 	std::cout << "FragTrap name constroctor called" << std::endl;
 	this->SetHitPoint(100);
-	this->SetEnergyPoint(50);
-	this->SetAttackDamage(20);
+	this->SetEnergyPoint(100);
+	this->SetAttackDamage(30);
 	this->SetName(pName);
 }
 
@@ -36,7 +36,10 @@ FragTrap &FragTrap::operator=(FragTrap &newScav)
 	return (*this);
 }
 
-FragTrap::~FragTrap() {}
+FragTrap::~FragTrap()
+{
+	std::cout << "FragTrap destructor called" << std::endl;
+}
 
 void FragTrap::attack(const std::string& target)
 {

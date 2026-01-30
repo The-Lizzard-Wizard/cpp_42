@@ -36,7 +36,10 @@ ScavTrap &ScavTrap::operator=(ScavTrap &newScav)
 	return (*this);
 }
 
-ScavTrap::~ScavTrap() {}
+ScavTrap::~ScavTrap()
+{
+	std::cout << "ScavTrap destructor called" << std::endl;
+}
 
 void ScavTrap::attack(const std::string& target)
 {
