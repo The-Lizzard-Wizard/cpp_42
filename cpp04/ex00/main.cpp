@@ -7,23 +7,38 @@
 
 int main()
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound();
-	j->makeSound();
-	meta->makeSound();
-	delete meta;
-	delete j;
-	delete i;
-	const WrongAnimal* WrongMeta = new WrongAnimal();
-	const WrongAnimal* WrongI = new WrongCat();
-	std::cout << WrongI->getType() << " " << std::endl;
-	WrongI->makeSound();
-	WrongMeta->makeSound();
-	delete WrongMeta;
-	delete WrongI;
-	return (0);
+	std::cout << "========== CORRECT POLYMORPHISM ==========\n";
+
+	const Animal* animal = new Animal();
+	const Animal* dog = new Dog();
+	const Animal* cat = new Cat();
+
+	std::cout << animal->getType() << " says: ";
+	animal->makeSound();
+
+	std::cout << dog->getType() << " says: ";
+	dog->makeSound();
+
+	std::cout << cat->getType() << " says: ";
+	cat->makeSound();
+
+	delete animal;
+	delete dog;
+	delete cat;
+
+	std::cout << "\n========== WRONG POLYMORPHISM ==========\n";
+
+	const WrongAnimal* wrongAnimal = new WrongAnimal();
+	const WrongAnimal* wrongCat = new WrongCat();
+
+	std::cout << wrongAnimal->getType() << " says: ";
+	wrongAnimal->makeSound();
+
+	std::cout << wrongCat->getType() << " says: ";
+	wrongCat->makeSound();
+
+	delete wrongAnimal;
+	delete wrongCat;
+
+	return 0;
 }
