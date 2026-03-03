@@ -98,6 +98,26 @@ void Bureaucrat::demot()
 	grade++;
 }
 
+void Bureaucrat::signForm(Form &Pform)
+{
+	if (Pform.isSigned())
+	{
+		std::cout <<Pform.getName() << " is already signed" << std::endl;
+		return ;
+	}
+
+	try
+	{
+		Pform.beSigned(*this);
+		if (Pform.isSigned())
+			std::cout << name << " sign " << Pform.getName() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << name << " couldn’t sign " << Pform.getName() << " because " << e.what() << '\n';
+	}
+}
+
 //============================================
 //exception
 

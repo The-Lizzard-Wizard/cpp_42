@@ -1,7 +1,10 @@
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
+#include "Form.hpp"
 #include <string>
+
+class Form;
 
 class Bureaucrat
 {
@@ -31,6 +34,8 @@ class Bureaucrat
 
 		void promot();
 		void demot();
+
+		void signForm(Form &Pform);
 	private:
 		const std::string name;
 		int grade;
