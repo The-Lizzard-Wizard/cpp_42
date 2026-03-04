@@ -1,5 +1,5 @@
 #include "class/hpp/Bureaucrat.hpp"
-#include "class/hpp/AForm.hpp"
+#include "class/hpp/ShrubberyCreationForm.hpp"
 #include <iostream>
 
 int main()
@@ -10,5 +10,8 @@ int main()
 	std::cout << "bureaucrat (" << hollow << ") has been created" << std::endl;
 
 	std::cout << std::endl;
+
+	ShrubberyCreationForm form("home");
+
 	std::cout << std::endl;
 }
