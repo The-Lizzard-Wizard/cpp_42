@@ -20,11 +20,21 @@ RobotomyRequestForm::~RobotomyRequestForm() {}
 
 RobotomyRequestForm &RobotomyRequestForm::operator=(RobotomyRequestForm &src)
 {
-
+	if (this != &src)
+		this->target = src.getTarget();
+	return (*this);
 }
+
 void	RobotomyRequestForm::execute(Bureaucrat const & executor) const
 {
-
+	if (!this->isSigned())
+		throw AForm::NotSignedException();
+	else if (executor.getGrade() > this->getExectueGrade())
+		throw AForm::GradeTooLowException();
+	else
+	{
+		//execture code here
+	}
 }
 
 std::string RobotomyRequestForm::getTarget() { return (target); }

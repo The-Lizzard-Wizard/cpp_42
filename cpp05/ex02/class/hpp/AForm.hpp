@@ -29,9 +29,11 @@ class AForm
 
 		void			beSigned(Bureaucrat &Bureau);
 		bool			isSigned();
+		bool			isSigned() const;
 		std::string		getName();
 		int				getsignGrade();
 		int				getExectueGrade();
+		int				getExectueGrade() const;
 
 		virtual void	execute(Bureaucrat const & executor) const = 0;
 	private:

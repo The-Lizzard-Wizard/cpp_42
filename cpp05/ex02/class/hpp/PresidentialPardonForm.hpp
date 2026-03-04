@@ -17,7 +17,7 @@ class PresidentialPardonForm : public AForm
 
 		std::string getTarget();
 	private:
-		const std::string target;
+		std::string target;
 };
 
 #endif //PRESIDENTIALPARDONFORM_HPP

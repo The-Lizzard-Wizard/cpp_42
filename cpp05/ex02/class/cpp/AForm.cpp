@@ -88,8 +88,11 @@ void		AForm::beSigned(Bureaucrat &Bureau)
 
 bool		AForm::isSigned() { return (Signed); }
 
+bool		AForm::isSigned() const { return (Signed); }
+
 std::string	AForm::getName() { return (name); }
 
 int	AForm::getsignGrade() { return (signGrade); }
 
 int	AForm::getExectueGrade() { return (executeGrade); }
+int	AForm::getExectueGrade() const { return (executeGrade); }
