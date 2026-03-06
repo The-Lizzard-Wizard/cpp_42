@@ -69,6 +69,7 @@ std::ostream& operator<<(std::ostream& stream, Bureaucrat &Bureau)
 //seter/geter
 
 std::string Bureaucrat::getName() {return (name); }
+std::string Bureaucrat::getName() const {return (name); }
 
 int Bureaucrat::getGrade() { return (grade); }
 int Bureaucrat::getGrade() const { return (grade); }

@@ -1,12 +1,15 @@
 #include "../hpp/RobotomyRequestForm.hpp"
+#include <iostream>
+#include <iomanip>
+#include <math.h>
 
 RobotomyRequestForm::RobotomyRequestForm() :
-	AForm("RobotomyRequestForm", 145, 137),
+	AForm("RobotomyRequestForm", 72, 45),
 	target("target")
 {}
 
 RobotomyRequestForm::RobotomyRequestForm(std::string Ptarget) :
-	AForm("RobotomyRequestForm", 145, 137),
+	AForm("RobotomyRequestForm", 72, 45),
 	target(Ptarget)
 {}
 
@@ -33,7 +36,18 @@ void	RobotomyRequestForm::execute(Bureaucrat const & executor) const
 		throw AForm::GradeTooLowException();
 	else
 	{
-		//execture code here
+		std::cout << executor.getName() << " execute " << AForm::getName() << std::endl;
+		static int seed = 0;
+		time_t t;
+		time(&t);
+		srand(t + seed);
+		seed++;
+		std::cout << "brrzrzrzrzrzrzrz......" << std::endl;
+		int r = rand()%2;
+		if (r == 1)
+			std::cout << target << " has been robotomized" << std::endl;
+		else
+			std::cout << "robotomization failed on " << target << std::endl;
 	}
 }
 

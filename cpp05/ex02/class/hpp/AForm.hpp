@@ -31,6 +31,7 @@ class AForm
 		bool			isSigned();
 		bool			isSigned() const;
 		std::string		getName();
+		std::string		getName() const;
 		int				getsignGrade();
 		int				getExectueGrade();
 		int				getExectueGrade() const;

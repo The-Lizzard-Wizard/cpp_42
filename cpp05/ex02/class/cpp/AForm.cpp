@@ -91,6 +91,7 @@ bool		AForm::isSigned() { return (Signed); }
 bool		AForm::isSigned() const { return (Signed); }
 
 std::string	AForm::getName() { return (name); }
+std::string	AForm::getName() const { return (name); }
 
 int	AForm::getsignGrade() { return (signGrade); }
 
