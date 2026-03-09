@@ -17,7 +17,7 @@ bool isFloatStr(str s)
 {
 	size_t i = 0;
 	bool p = false;
-	if (s.compare())
+	//check overflow here
 	if (s.c_str()[0] == '-')
 		i++;
 	if (s.c_str()[0] == '.')
