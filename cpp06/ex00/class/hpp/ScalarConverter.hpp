@@ -3,7 +3,7 @@
 
 #include <string>
 
-#define IMP "impoible"
+#define IMP "impossible"
 #define NDIP "non displayable"
 
 typedef std::string str;

@@ -1,5 +1,8 @@
 #include "../hpp/ScalarConverter.hpp"
 #include <iostream>
+#include <sstream>
+
+#include <string>
 
 ScalarConverter::ScalarConverter() {}
 
@@ -14,6 +17,7 @@ bool isFloatStr(str s)
 {
 	size_t i = 0;
 	bool p = false;
+	if (s.compare())
 	if (s.c_str()[0] == '-')
 		i++;
 	if (s.c_str()[0] == '.')
@@ -58,7 +62,15 @@ void PrintChar(str fmt)
 void PrintInt(str fmt)
 {
 	str res;
-	if (isNumStr(fmt))
+	if (isFloatStr(fmt))
+	{
+		int si;
+		std::istringstream(fmt) >> si;
+		std::ostringstream oss;
+		oss << si;
+		res =  oss.str();
+	}
+	else if (isNumStr(fmt))
 		res = fmt;
 	else
 		res = IMP;
@@ -67,13 +79,13 @@ void PrintInt(str fmt)
 
 void PrintFloat(str fmt)
 {
-	str res = fmt;
+	str res;
 	if (isFloatStr(fmt))
 		res = fmt;
 	else if (isNumStr(fmt))
 		res = fmt;
 	else
-		res = IMP;
+		res = "nan";
 	std::cout << "float : " << res << "f" << std::endl;
 }
 
