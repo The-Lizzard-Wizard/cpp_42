@@ -70,7 +70,7 @@ bool isFloatStr(str &s)
 	return (true);
 }
 
-bool isDoubleStr(str s)
+bool isDoubleStr(str &s)
 {
 	size_t i = 0;
 	bool p = false;
@@ -91,8 +91,24 @@ bool isDoubleStr(str s)
 			return (false);
 		i++;
 	}
-	if (s.c_str()[i] == 'f' || s.c_str()[i] == '.')
+	if (p == true && s.c_str()[i] == '.')
+		return (false);
+	else if (p == false && s.c_str()[i] == '.')
+	{
+		s += "0";
 		return (true);
+	}
+	if (s.c_str()[i] == 'f')
+	{
+		char isn[2];
+		isn[1] = '\0';
+		isn[0] = s.substr(s.length() - 2, s.length() - 1).c_str()[0];
+		if (p  && !isNumStr(isn))
+			s = s.substr(0, s.length() - 1) + "0";
+		else if (!p)
+			s = s.substr(0, s.length() - 1) + ".0";
+		return (true);
+	}
 	if (p == false)
 		return (false);
 	return (true);
@@ -157,7 +173,7 @@ void PrintDouble(str fmt)
 	if (isDoubleStr(fmt))
 		res = fmt;
 	else if (isNumStr(fmt))
-		res = fmt;
+		res = fmt + ".0";
 	else
 		res = "nan";
 	std::cout << "double : " << res << std::endl;
