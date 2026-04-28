@@ -1,6 +1,10 @@
 #include "../hpp/ScalarConverter.hpp"
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
+#include <iomanip>
+#include <limits>
+#include <cmath>
 
 #include <string>
 
@@ -12,174 +16,42 @@ ScalarConverter &ScalarConverter::operator=(ScalarConverter &src) { (void)src; r
 
 ScalarConverter::~ScalarConverter() {}
 
-bool isNumStr(str s)
+void PrintChar(std::string fmt)
 {
-	size_t i = 0;
-	if (s.c_str()[0] == '-')
-		i++;
-	while (s.c_str()[i])
-	{
-		if (s.c_str()[i] < 48 || s.c_str()[i] > 57)
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-bool isFloatStr(str &s)
-{
-	size_t i = 0;
-	bool p = false;
-	//check overflow here
-	if (s.c_str()[0] == '-')
-		i++;
-	if (s.c_str()[0] == '.')
-		return (false);
-	while (i < s.length() - 1)
-	{
-		if (s.c_str()[i] == '.')
-		{
-			i++;
-			p = !p;
-			continue ;
-		}
-		if (s.c_str()[i] < 48 || s.c_str()[i] > 57)
-			return (false);
-		i++;
-	}
-	if (p == true && s.c_str()[i] == '.')
-		return (false);
-	else if (p == false && s.c_str()[i] == '.')
-	{
-		s += "0";
-		return (true);
-	}
-	if (s.c_str()[i] == 'f')
-	{
-		char isn[2];
-		isn[1] = '\0';
-		isn[0] = s.substr(s.length() - 2, s.length() - 1).c_str()[0];
-		if (p  && !isNumStr(isn))
-			s = s.substr(0, s.length() - 1) + "0";
-		else if (!p)
-			s = s.substr(0, s.length() - 1) + ".0";
-		return (true);
-	}
-	if (p == false)
-		return (false);
-	return (true);
-}
-
-bool isDoubleStr(str &s)
-{
-	size_t i = 0;
-	bool p = false;
-	//check overflow here
-	if (s.c_str()[0] == '-')
-		i++;
-	if (s.c_str()[0] == '.')
-		return (false);
-	while (i < s.length() - 1)
-	{
-		if (s.c_str()[i] == '.')
-		{
-			i++;
-			p = !p;
-			continue ;
-		}
-		if (s.c_str()[i] < 48 || s.c_str()[i] > 57)
-			return (false);
-		i++;
-	}
-	if (p == true && s.c_str()[i] == '.')
-		return (false);
-	else if (p == false && s.c_str()[i] == '.')
-	{
-		s += "0";
-		return (true);
-	}
-	if (s.c_str()[i] == 'f')
-	{
-		char isn[2];
-		isn[1] = '\0';
-		isn[0] = s.substr(s.length() - 2, s.length() - 1).c_str()[0];
-		if (p  && !isNumStr(isn))
-			s = s.substr(0, s.length() - 1) + "0";
-		else if (!p)
-			s = s.substr(0, s.length() - 1) + ".0";
-		return (true);
-	}
-	if (p == false)
-		return (false);
-	return (true);
-}
-
-void PrintChar(str fmt)
-{
-	str res;
-	if (isNumStr(fmt) || isFloatStr(fmt))
-	{
-		char s[2];
-		s[1] = '\0';
-		int c;
-		std::istringstream(fmt) >> c;
-		s[0] = c;
-		if (isprint(c))
-			res = s;
-		else
-			res = NDIP;
-	}
+	double value = std::strtod(fmt.c_str(), NULL);
+	if (value < 0 || value > 127 || std::isnan(value) || std::isinf(value))
+		std::cout << "char: impossible" << std::endl;
+	else if (!isprint(static_cast<char>(value)))
+		std::cout << "char: Non displayable" << std::endl;
 	else
-		res = IMP;
-	std::cout << "char : '" << res << "'" << std::endl;
+		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
 }
 
-void PrintInt(str fmt)
+void PrintInt(std::string fmt)
 {
-	str res;
-	if (isFloatStr(fmt))
-	{
-		int si;
-		std::istringstream(fmt) >> si;
-		std::ostringstream oss;
-		oss << si;
-		res =  oss.str();
-	}
-	else if (isNumStr(fmt))
-		res = fmt;
+	double value = std::strtod(fmt.c_str(), NULL);
+	if (value > std::numeric_limits<int>::max() ||
+			value < std::numeric_limits<int>::min() ||
+			std::isnan(value) || std::isinf(value))
+		std::cout << "int: impossible" << std::endl;
 	else
-		res = IMP;
-	std::cout << "int : " << res << std::endl;
+		std::cout << "int: " << static_cast<int>(value) << std::endl;
 }
 
-void PrintFloat(str fmt)
+void PrintFloat(std::string fmt)
 {
-	str res;
-	if (isFloatStr(fmt))
-		res = fmt;
-	else if (isNumStr(fmt))
-		res = fmt + ".0";
-	else
-		res = "nan";
-	if (res.c_str()[res.length() - 1] == 'f')
-		std::cout << "float : " << res << std::endl;
-	else
-		std::cout << "float : " << res << "f" << std::endl;
+	float p = static_cast<float>(std::strtod(fmt.c_str(), NULL));
+	std::cout << "float: " << std::fixed << std::setprecision(1) << p << "f" << std::endl;
 }
 
-void PrintDouble(str fmt)
+void PrintDouble(std::string fmt)
 {
-	str res = fmt;
-	if (isDoubleStr(fmt))
-		res = fmt;
-	else if (isNumStr(fmt))
-		res = fmt + ".0";
-	else
-		res = "nan";
-	std::cout << "double : " << res << std::endl;
+	double p = static_cast<double>(std::strtod(fmt.c_str(), NULL));
+	std::cout << "double: " << std::fixed << std::setprecision(1) << p << std::endl;
 }
 
-void ScalarConverter::convert(str fmt)
+
+void ScalarConverter::convert(std::string fmt)
 {
 	PrintChar(fmt);
 	PrintInt(fmt);

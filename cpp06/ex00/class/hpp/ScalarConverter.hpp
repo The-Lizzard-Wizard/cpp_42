@@ -6,8 +6,6 @@
 #define IMP "impossible"
 #define NDIP "non displayable"
 
-typedef std::string str;
-
 class ScalarConverter
 {
 	public :
@@ -16,7 +14,7 @@ class ScalarConverter
 		ScalarConverter &operator=(ScalarConverter &src);
 		~ScalarConverter();
 
-		static void convert(str fmt);
+		static void convert(std::string fmt);
 	private :
 };
 
