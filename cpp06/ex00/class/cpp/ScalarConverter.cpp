@@ -40,19 +40,61 @@ void PrintInt(std::string fmt)
 
 void PrintFloat(std::string fmt)
 {
-	float p = static_cast<float>(std::strtod(fmt.c_str(), NULL));
-	std::cout << "float: " << std::fixed << std::setprecision(1) << p << "f" << std::endl;
+	double value = std::strtod(fmt.c_str(), NULL);
+	if (std::isnan(value))
+	{
+		std::cout << "float: nanf\n";
+	}
+	else if (std::isinf(value))
+	{
+		if (value < 0)
+		{
+			std::cout << "float: -inff\n";
+		}
+		else
+		{
+			std::cout << "float: +inff\n";
+		}
+	}
+	else if (value > std::numeric_limits<float>::max() ||
+				value < -std::numeric_limits<float>::max())
+	{
+		std::cout << "float: impossible" << "\n";
+	}
+	else
+	{
+		std::cout << "float: " << static_cast<float>(value) << "f\n";
+	}
 }
 
 void PrintDouble(std::string fmt)
 {
-	double p = static_cast<double>(std::strtod(fmt.c_str(), NULL));
-	std::cout << "double: " << std::fixed << std::setprecision(1) << p << std::endl;
+	double value = std::strtod(fmt.c_str(), NULL);
+	if (std::isnan(value))
+	{
+		std::cout << "double: nan\n";
+	}
+	else if (std::isinf(value))
+	{
+		if (value < 0)
+		{
+			std::cout << "double: -inf\n";
+		}
+		else
+		{
+			std::cout << "double: +inf\n";
+		}
+	}
+	else
+	{
+		std::cout << "double: " << static_cast<double>(value) << "\n";
+	}
 }
 
 
 void ScalarConverter::convert(std::string fmt)
 {
+	std::cout << std::fixed << std::setprecision(1);
 	PrintChar(fmt);
 	PrintInt(fmt);
 	PrintFloat(fmt);
