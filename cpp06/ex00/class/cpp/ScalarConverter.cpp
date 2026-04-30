@@ -19,7 +19,9 @@ ScalarConverter::~ScalarConverter() {}
 void PrintChar(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
-	if (value < 0 || value > 127 || std::isnan(value) || std::isinf(value))
+	if (fmt.size() == 1 && isprint(fmt[0]) && !isdigit(fmt[0]))
+		std::cout << "char: '" << fmt[0] << "'" << std::endl;
+	else if (value < 0 || value > 127 || std::isnan(value) || std::isinf(value))
 		std::cout << "char: impossible" << std::endl;
 	else if (!isprint(static_cast<char>(value)))
 		std::cout << "char: Non displayable" << std::endl;
@@ -30,9 +32,10 @@ void PrintChar(std::string fmt)
 void PrintInt(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
-	if (value > std::numeric_limits<int>::max() ||
-			value < std::numeric_limits<int>::min() ||
-			std::isnan(value) || std::isinf(value))
+	if (std::isnan(value) || std::isinf(value))
+		std::cout << "int: " << fmt << std::endl;
+	else if (value > std::numeric_limits<int>::max() ||
+			value < std::numeric_limits<int>::min())
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
@@ -91,10 +94,56 @@ void PrintDouble(std::string fmt)
 	}
 }
 
+int pars(std::string &fmt, int &floatIndex)
+{
+	double value = std::strtod(fmt.c_str(), NULL);
+	if (std::isnan(value) || std::isinf(value))
+		return (0);
+	if (fmt.size() <= 1)
+		return (0);
+	else
+	{
+		size_t i = 0;
+		while (fmt[i] && isdigit(fmt[i]))
+			i++;
+		if (fmt[i] != '\0')
+		{
+			if (fmt[i] == 'f' && i == fmt.size() - 1)
+				return (0);
+			else if (fmt[i] == '.' && i != fmt.size() - 1)
+			{
+				i++;
+				while (fmt[i] && isdigit(fmt[i]))
+				{
+					floatIndex++;
+					i++;
+				}
+				if (fmt[i] == 'f' && i == fmt.size() - 1)
+					return (0);
+				return (0);
+			}
+			else
+				return (1) ;
+		}
+		else
+			return (0);
+	}
+}
 
 void ScalarConverter::convert(std::string fmt)
 {
-	std::cout << std::fixed << std::setprecision(1);
+	int floatIndex = 1;
+	if (pars(fmt, floatIndex) == 1)
+	{
+		std::cout << "char: impossible\n";
+		std::cout << "int: impossible\n";
+		std::cout << "float: impossible\n";
+		std::cout << "double: impossible\n";
+		return ;
+	}
+	if (floatIndex > 1)
+		floatIndex--;
+	std::cout << std::fixed << std::setprecision(floatIndex);
 	PrintChar(fmt);
 	PrintInt(fmt);
 	PrintFloat(fmt);
