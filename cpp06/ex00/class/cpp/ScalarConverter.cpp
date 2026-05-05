@@ -19,6 +19,8 @@ ScalarConverter::~ScalarConverter() {}
 void PrintChar(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
+	if (fmt.size() == 1 && isprint(fmt[0]))
+		value = static_cast<int>(fmt[0]);
 	if (fmt.size() == 1 && isprint(fmt[0]) && !isdigit(fmt[0]))
 		std::cout << "char: '" << fmt[0] << "'" << std::endl;
 	else if (value < 0 || value > 127 || std::isnan(value) || std::isinf(value))
@@ -32,8 +34,10 @@ void PrintChar(std::string fmt)
 void PrintInt(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
+	if (fmt.size() == 1 && isprint(fmt[0]))
+		value = static_cast<int>(fmt[0]);
 	if (std::isnan(value) || std::isinf(value))
-		std::cout << "int: " << fmt << std::endl;
+		std::cout << "int: impossible" << std::endl;
 	else if (value > std::numeric_limits<int>::max() ||
 			value < std::numeric_limits<int>::min())
 		std::cout << "int: impossible" << std::endl;
@@ -44,6 +48,8 @@ void PrintInt(std::string fmt)
 void PrintFloat(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
+	if (fmt.size() == 1 && isprint(fmt[0]))
+		value = static_cast<int>(fmt[0]);
 	if (std::isnan(value))
 	{
 		std::cout << "float: nanf\n";
@@ -73,6 +79,8 @@ void PrintFloat(std::string fmt)
 void PrintDouble(std::string fmt)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
+	if (fmt.size() == 1 && isprint(fmt[0]))
+		value = static_cast<int>(fmt[0]);
 	if (std::isnan(value))
 	{
 		std::cout << "double: nan\n";
@@ -94,10 +102,24 @@ void PrintDouble(std::string fmt)
 	}
 }
 
+bool isInfNanStr(std::string fmt)
+{
+	if (fmt == "nan" ||
+			fmt == "nanf" ||
+			fmt == "inf" ||
+			fmt == "+inf" ||
+			fmt == "-inf" ||
+			fmt == "inff" ||
+			fmt == "+inff" ||
+			fmt == "-inff")
+		return (true);
+	return (false);
+}
+
 int pars(std::string &fmt, int &floatIndex)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
-	if (std::isnan(value) || std::isinf(value))
+	if (isInfNanStr(fmt) && (std::isnan(value) || std::isinf(value)))
 		return (0);
 	if (fmt.size() <= 1)
 		return (0);
@@ -112,15 +134,17 @@ int pars(std::string &fmt, int &floatIndex)
 				return (0);
 			else if (fmt[i] == '.' && i != fmt.size() - 1)
 			{
+				if (i == 0)
+					return (1);
 				i++;
 				while (fmt[i] && isdigit(fmt[i]))
 				{
 					floatIndex++;
 					i++;
 				}
-				if (fmt[i] == 'f' && i == fmt.size() - 1)
+				if ((fmt[i] == 'f' && i == fmt.size() - 1) || i == fmt.size())
 					return (0);
-				return (0);
+				return (1);
 			}
 			else
 				return (1) ;
