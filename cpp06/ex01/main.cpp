@@ -11,6 +11,4 @@ int main()
 
     Data *data2 = Serializer::deserialize(ptr);
     std::cout << data2->value << std::endl;
-
-
 }
