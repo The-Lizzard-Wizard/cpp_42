@@ -47,7 +47,7 @@ void PrintInt(std::string fmt)
 
 void PrintFloat(std::string fmt)
 {
-	double value = std::strtod(fmt.c_str(), NULL);
+	float value = std::strtod(fmt.c_str(), NULL);
 	if (fmt.size() == 1 && isprint(fmt[0]))
 		value = static_cast<int>(fmt[0]);
 	if (std::isnan(value))
@@ -76,11 +76,16 @@ void PrintFloat(std::string fmt)
 	}
 }
 
-void PrintDouble(std::string fmt)
+void PrintDouble(std::string fmt, bool isF)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
 	if (fmt.size() == 1 && isprint(fmt[0]))
 		value = static_cast<int>(fmt[0]);
+	if (isF)
+	{
+		float tmp = std::strtof(fmt.c_str(), NULL);
+		value = static_cast<double>(tmp);
+	}
 	if (std::isnan(value))
 	{
 		std::cout << "double: nan\n";
@@ -116,7 +121,7 @@ bool isInfNanStr(std::string fmt)
 	return (false);
 }
 
-int pars(std::string &fmt, int &floatIndex)
+int pars(std::string &fmt, int &floatIndex, bool &isF)
 {
 	double value = std::strtod(fmt.c_str(), NULL);
 	if (isInfNanStr(fmt) && (std::isnan(value) || std::isinf(value)))
@@ -126,12 +131,19 @@ int pars(std::string &fmt, int &floatIndex)
 	else
 	{
 		size_t i = 0;
+		if (fmt.size() > 1 && fmt[0] == '-')
+			i++;
+		if (!isdigit(fmt[i]))
+			return (1);
 		while (fmt[i] && isdigit(fmt[i]))
 			i++;
 		if (fmt[i] != '\0')
 		{
 			if (fmt[i] == 'f' && i == fmt.size() - 1)
+			{
+				isF = true;
 				return (0);
+			}
 			else if (fmt[i] == '.' && i != fmt.size() - 1)
 			{
 				if (i == 0)
@@ -143,7 +155,11 @@ int pars(std::string &fmt, int &floatIndex)
 					i++;
 				}
 				if ((fmt[i] == 'f' && i == fmt.size() - 1) || i == fmt.size())
+				{
+					if (fmt[i] == 'f')
+						isF = true;
 					return (0);
+				}
 				return (1);
 			}
 			else
@@ -157,7 +173,8 @@ int pars(std::string &fmt, int &floatIndex)
 void ScalarConverter::convert(std::string fmt)
 {
 	int floatIndex = 1;
-	if (pars(fmt, floatIndex) == 1)
+	bool isF = false;
+	if (pars(fmt, floatIndex, isF) == 1)
 	{
 		std::cout << "char: impossible\n";
 		std::cout << "int: impossible\n";
@@ -171,5 +188,5 @@ void ScalarConverter::convert(std::string fmt)
 	PrintChar(fmt);
 	PrintInt(fmt);
 	PrintFloat(fmt);
-	PrintDouble(fmt);
+	PrintDouble(fmt, isF);
 }
