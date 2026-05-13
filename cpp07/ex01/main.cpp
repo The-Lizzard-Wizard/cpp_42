@@ -11,6 +11,6 @@ int main()
 	iter<int>(arrey, 4, printElem<int>);
 
 	std::cout << std::endl << "const arrey=====================" << std::endl;
-	const int const_arrey[] = {1, 4, 10, 2};
+	const int const_arrey[] = {4, 5, 41, 8};
 	iter<const int>(const_arrey, 4, printElem<int>);
 }
