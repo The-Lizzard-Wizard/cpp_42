@@ -1,3 +1,6 @@
+#ifndef TEMPLATFUNCTION_HPP
+#define TEMPLATFUNCTION_HPP
+
 template <typename T>
 void swap(T &a, T &b)
 {
@@ -23,3 +26,5 @@ T max(T &a, T &b)
 	else
 		return (b);
 }
+
+#endif //TEMPLATFUNCTION_HPP

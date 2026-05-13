@@ -1,3 +1,5 @@
+#ifndef ITER_HPP
+#define ITER_HPP
 #include <iostream>
 
 template <typename T>
@@ -35,3 +37,5 @@ void add(T &t)
 {
 	t++;
 }
+
+#endif //ITER_HPP
