@@ -1,6 +1,6 @@
 NAME = array
-SRC = main.cpp array.cpp
-DEPS = array.hpp
+SRC = main.cpp
+DEPS = class/hpp/Array.hpp class/tpp/Array.tpp
 CC = c++ -Wall -Wextra -Werror -std=c++98
 
 .PHONY: all clean fclean re
