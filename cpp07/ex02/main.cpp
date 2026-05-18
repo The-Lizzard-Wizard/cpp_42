@@ -40,4 +40,20 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
+
+	Array<char> char_array(6);
+	try
+	{
+		char_array[0] = 'a';
+		char_array[1] = 'm';
+		char_array[2] = 'o';
+		char_array[3] = 'g';
+		char_array[4] = 'u';
+		char_array[5] = 's';
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	print_array(char_array);
 }
