@@ -1,6 +1,6 @@
-NAME = span
-SRC = main.cpp class/cpp/Span.cpp
-DEPS = class/hpp/Span.hpp
+NAME = MutantStack
+SRC = main.cpp
+DEPS = class/hpp/MutantStack.hpp class/hpp/MutantStack.tpp
 CC = c++ -Wall -Wextra -Werror -std=c++98
 
 .PHONY: all clean fclean re
