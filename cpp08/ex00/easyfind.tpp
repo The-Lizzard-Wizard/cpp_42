@@ -2,6 +2,7 @@
 #define EASYFIND_TPP
 
 #include "easyfind.hpp"
+#include <algorithm>
 
 const char *	ValueNotFoundException::what() const throw()
 {
@@ -11,9 +12,8 @@ const char *	ValueNotFoundException::what() const throw()
 template <typename T>
 int easyfind(T const &containers, int f)
 {
-	typename T::const_iterator it;
-	for (it = containers.begin(); it != containers.end(); it++)
-		if (*it == f)
+	typename T::const_iterator it = std::find(containers.begin(), containers.end(), f);
+		if (it != containers.end())
 			return (*it);
 	throw ValueNotFoundException();
 }

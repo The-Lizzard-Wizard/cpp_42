@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <cstddef>
+#include <vector>
 
 class Span
 {
@@ -20,19 +21,18 @@ class Span
 
 		size_t getSize();
 		size_t getSize() const;
+		const std::vector<int> &getVec() const;
 
 		void addNumber(int num);
 		int shortestSpan();
 		int longestSpan();
 
-		int &operator[](unsigned long i);
-		int &operator[](unsigned long i) const;
 	private :
 		int getBigNumPos();
 		int getShortNumPos();
 
-		int *array;
-		size_t size;
+		std::vector<int> array;
+		int size;
 		int nbReg;
 };
 
