@@ -5,6 +5,7 @@
 #include <fstream>
 #include <exception>
 #include <iostream>
+#include <math.h>
 
 const char * dateNotValidException::what() const throw()
 { return ("Error: invalid date."); }
@@ -105,24 +106,43 @@ std::map<str, float> inputStrToMap(str src)
 		}
 		str line;
 		line = src.substr(0, src.find('\n'));
-		str date = src.substr(0, src.find('|'));
-		line.erase(0, src.find('|') + 1);
+		char end = '|';
+
+		if (line.find(end) == str::npos) { end = '\n'; }
+		str date = src.substr(0, src.find(end));
+		while (date[date.size() - 1] == ' ')
+			date.erase(date.size() - 1, date.size());
+		line.erase(0, src.find(end) + 1);
+		while (line[0] == ' ')
+			line.erase(0, 1);
 		sstr value(line);
+		std::cout << "value : '" << value.str() << "'" << std::endl;
 		src.erase(0, src.find('\n') + 1);
-		if (value.str().find_first_not_of("1234567890.") != str::npos || value.str()[0] == '.')
-			throw valueNotANumberException();
+		float val = 0;
+		if ((value.str()[0] != '-' && value.str().find_first_not_of("1234567890.") != str::npos) || value.str()[0] == '.')
+			val = 1001;
+		else if (value.str() == "")
+			val = 1002;
 		try
 		{
+			std::cout << "[" << date << "]" << std::endl;
 			date = parsDate(date);
 		}
 		catch(const std::exception& e)
 		{
 			throw dateNotValidException();
 		}
-		float val;
-		value >> val;
+		if (val <= 1000)
+			value >> val;
 		dateToStruct(date);
-		dataBase[date] = val;
+		static str d = "+";
+		if (dataBase.find(date) == dataBase.end())
+			dataBase[date] = val;
+		else
+		{
+			dataBase[dataBase.find(date)->first + d] = val;
+			d += "+";
+		}
 	}
 	return (dataBase);
 }

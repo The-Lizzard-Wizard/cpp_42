@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include "../../utils.hpp"
-#include "Btc.hpp"
+#include "Input.hpp"
 
 class Db
 {
@@ -14,7 +14,7 @@ class Db
 		Db(const Db &src);
 		Db &operator=(Db &src);
 
-		void outFormInput(Btc &btc);
+		void outFormInput(Input &Input);
 
 		str getStr() const;
 	private:
