@@ -37,9 +37,14 @@ void Db::outFormInput(Input &Input)
 	std::map<str, float> inMap = Input.getMap();
 	for (std::map<str, float>::iterator i = inMap.begin(); i != inMap.end(); i++)
 	{
-		if (dataBase.find(i->first) != inMap.end())
+		if (dataBase.find(i->first.substr(0, 8)) != dataBase.end())
 		{
-			std::cout << i->first.substr(0, 4) << "-" << i->first.substr(4, 2) << "-" << i->first.substr(6, 2) << std::endl;
+			if (i->second == 1001)
+				//fait un truc
+			else if (i->second == 1002)
+				//fait un autre truc
+			std::cout << i->first.substr(0, 4) << "-" << i->first.substr(4, 2) << "-" << i->first.substr(6, 2);
+			std::cout << " => " << i->second << " = " << dataBase[i->first.substr(0, 8)] * i->second << std::endl;
 		}
 		else
 		{}
