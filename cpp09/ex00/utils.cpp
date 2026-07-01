@@ -133,7 +133,11 @@ std::map<str, float> inputStrToMap(str src)
 			throw dateNotValidException();
 		}
 		if (val <= 1000)
+		{
 			value >> val;
+			if (val > 1000)
+				val = 1003;
+		}
 		dateToStruct(date);
 		static str d = "+";
 		if (dataBase.find(date) == dataBase.end())

@@ -43,6 +43,8 @@ void Db::outFormInput(Input &Input)
 				//fait un truc
 			else if (i->second == 1002)
 				//fait un autre truc
+			else if (i->second == 1003)
+				//fait un autre autre truc
 			std::cout << i->first.substr(0, 4) << "-" << i->first.substr(4, 2) << "-" << i->first.substr(6, 2);
 			std::cout << " => " << i->second << " = " << dataBase[i->first.substr(0, 8)] * i->second << std::endl;
 		}
