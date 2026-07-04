@@ -16,11 +16,6 @@ Input::Input(str DbTxt)
 		std::cout << e.what() << std::endl;
 	}
 	DbStr = DbTxt;
-	for (std::map<str, float>::iterator i = input.begin(); i != input.end(); i++)
-	{
-		std::cout << i->first << " | " << i->second << std::endl;
-	}
-
 }
 
 Input::Input(const Input &src)

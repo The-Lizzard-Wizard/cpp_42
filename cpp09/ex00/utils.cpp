@@ -16,6 +16,54 @@ const char * valueNotANumberException::what() const throw()
 const char * fileOpenFailedException::what() const throw()
 { return ("Error: could not open file."); }
 
+void init_date(std::map<int, int> &date)
+{
+	date[1] = 31;
+	date[2] = 28;
+	date[3] = 31;
+	date[4] = 30;
+	date[5] = 31;
+	date[6] = 30;
+	date[7] = 31;
+	date[8] = 31;
+	date[9] = 30;
+	date[10] = 31;
+	date[11] = 30;
+	date[12] = 31;
+}
+
+bool validDate(str date, std::map<int, int> dateMap)
+{
+	sstr sy(date.substr(0, 4));
+	sstr sm(date.substr(4, 2));
+	sstr sd(date.substr(6, 2));
+	int year;
+	int month;
+	int day;
+	sy >> year;
+	sm >> month;
+	sd >> day;
+	bool bi = false;
+	if (year % 4 == 0)
+		bi = true;
+	else if (year % 100 == 0)
+		bi = false;
+	else if (year % 400 == 0)
+		bi = true;
+	else
+		bi = false;
+	if (dateMap.find(month) != dateMap.end())
+	{
+		if (bi == true)
+			date[2] = 29;
+		if (day <= 0 || day > dateMap[month])
+			return (false);
+	}
+	else
+		return (false);
+	return (true);
+}
+
 str fileToStr(str pathname)
 {
 	str res;
@@ -41,6 +89,31 @@ str parsDate(str rawDate)
 		throw dateNotValidException();
 	if (day.find_first_not_of("1234567890") != str::npos)
 		throw dateNotValidException();
+	return (year + month + day);
+}
+
+str parsDate(str rawDate, int)
+{
+	str olddate = rawDate;
+	str year(rawDate.substr(0, rawDate.find('-')));
+	rawDate.erase(0, rawDate.find('-') + 1);
+	str month(rawDate.substr(0, rawDate.find('-')));
+	rawDate.erase(0, rawDate.find('-') + 1);
+	str day(rawDate);
+	if (year.find_first_not_of("1234567890") != str::npos)
+		return (olddate);
+	if (month.find_first_not_of("1234567890") != str::npos)
+		return (olddate);
+	if (day.find_first_not_of("1234567890") != str::npos)
+		return (olddate);
+	
+	if (olddate.size() != 10)
+		return (olddate);
+
+	std::map<int, int> date;
+	init_date(date);
+	if (!validDate(year + month + day, date))
+		return (olddate);
 	return (year + month + day);
 }
 
@@ -116,22 +189,13 @@ std::map<str, float> inputStrToMap(str src)
 		while (line[0] == ' ')
 			line.erase(0, 1);
 		sstr value(line);
-		std::cout << "value : '" << value.str() << "'" << std::endl;
 		src.erase(0, src.find('\n') + 1);
 		float val = 0;
 		if ((value.str()[0] != '-' && value.str().find_first_not_of("1234567890.") != str::npos) || value.str()[0] == '.')
 			val = 1001;
 		else if (value.str() == "")
 			val = 1002;
-		try
-		{
-			std::cout << "[" << date << "]" << std::endl;
-			date = parsDate(date);
-		}
-		catch(const std::exception& e)
-		{
-			throw dateNotValidException();
-		}
+		date = parsDate(date, 1);
 		if (val <= 1000)
 		{
 			value >> val;

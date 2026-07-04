@@ -20,6 +20,7 @@ class Db
 	private:
 		str DbStr;
 		std::map<str, float> dataBase;
+		std::map<int, int> date;
 };
 
 #endif //DB_HPP

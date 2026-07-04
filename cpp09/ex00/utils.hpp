@@ -38,5 +38,7 @@ str fileToStr(str pathname);
 str parsDate(str rawDate);
 std::map<str, float> csvStrToMap(str src);
 std::map<str, float> inputStrToMap(str src);
+bool validDate(str date, std::map<int, int> dateMap);
+void init_date(std::map<int, int> &date);
 
 #endif //UTILS_HPP
