@@ -61,7 +61,8 @@ int resolve(std::stack<char> &input)
 			b = charToInt(input.top());
 		else
 		{} // error
-		res = a + b;
+		input.pop();
+		res = b + a;
 	}
 	else if (input.top() == '-')
 	{
@@ -72,13 +73,15 @@ int resolve(std::stack<char> &input)
 			a = charToInt(input.top());
 		else
 		{} // error
+		input.pop();
 		if (isOp(input.top()))
 			b = resolve(input);
 		else if (isNum(input.top()))
 			b = charToInt(input.top());
 		else
 		{} // error
-		res = a - b;
+		input.pop();
+		res = b - a;
 	}
 	else if (input.top() == '*')
 	{
@@ -89,13 +92,15 @@ int resolve(std::stack<char> &input)
 			a = charToInt(input.top());
 		else
 		{} // error
+		input.pop();
 		if (isOp(input.top()))
 			b = resolve(input);
 		else if (isNum(input.top()))
 			b = charToInt(input.top());
 		else
 		{} // error
-		res = a * b;
+		input.pop();
+		res = b * a;
 	}
 	else if (input.top() == '/')
 	{
@@ -106,13 +111,15 @@ int resolve(std::stack<char> &input)
 			a = charToInt(input.top());
 		else
 		{} // error
+		input.pop();
 		if (isOp(input.top()))
 			b = resolve(input);
 		else if (isNum(input.top()))
 			b = charToInt(input.top());
 		else
 		{} // error
-		res = a / b;
+		input.pop();
+		res = b / a;
 	}
 	return (res);
 }
