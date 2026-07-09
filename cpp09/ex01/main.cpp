@@ -1,23 +1,11 @@
 #include <stack>
 #include <string>
 #include <iostream>
+#include "excep.hpp"
 
 typedef std::string str;
 
-void parsInput(std::stack<char> &input, str args)
-{
-	while (args.find(' ') != std::string::npos)
-	{
-		str part = args.substr(0, args.find(' '));
-		if (part.size() == 1)
-			input.push(part[0]);
-		else
-		{} // error
-		args.erase(0, args.find(' ') + 1);
-	}
-	if (args.size() > 0)
-		input.push(args[0]);
-}
+float resolve(std::stack<char> &input);
 
 bool isOp(char c)
 {
@@ -33,94 +21,94 @@ bool isNum(char c)
 	return (false);
 }
 
-int charToInt(char c)
+float charToInt(char c)
 {
 	if (isNum(c))
 		return (c - 48);
 	return (0);
 }
 
-int resolve(std::stack<char> &input)
+void parsInput(std::stack<char> &input, str args)
 {
-	int res = 0;
-	int a = 0;
-	int b = 0;
-	if (input.top() == '+')
+	int op = 0;
+	int num = 0;
+	while (args.size() > 0)
 	{
-		input.pop();
-		if (isOp(input.top()))
-			a = resolve(input);
-		else if (isNum(input.top()))
-			a = charToInt(input.top());
+		str part;
+		if (args.find(' ') != str::npos)
+			part = args.substr(0, args.find(' '));
 		else
-		{} // error
-		input.pop();
-		if (isOp(input.top()))
-			b = resolve(input);
-		else if (isNum(input.top()))
-			b = charToInt(input.top());
+			part = args.substr(0, args.find('\0'));
+		if (part.size() == 1)
+		{
+			input.push(part[0]);
+		}
 		else
-		{} // error
+		{
+			throw notValidInput();
+		}
+		if (isNum(part[0]))
+			num++;
+		if (isOp(part[0]))
+			op++;
+		if (args.find(' ') != str::npos)
+			args.erase(0, args.find(' ') + 1);
+		else
+			args.erase(0, args.find('\0'));
+		
+	}
+	if (num != op + 1)
+	{
+		throw notValidInput();
+	}
+}
+
+float getAB(std::stack<char> &input)
+{
+	float res = 0;
+	if (isOp(input.top()))
+		res = resolve(input);
+	else if (isNum(input.top()))
+	{
+		res = charToInt(input.top());
 		input.pop();
+	}
+	else
+	{
+		throw notValidInput();
+	}
+	return (res);
+}
+
+float resolve(std::stack<char> &input)
+{
+	float res = 0;
+	float a = 0;
+	float b = 0;
+
+	char op = input.top();
+	input.pop();
+
+	try
+	{
+		a = getAB(input);
+		b = getAB(input);
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << e.what() << '\n';
+	}
+	
+
+
+	if (op == '+')
 		res = b + a;
-	}
-	else if (input.top() == '-')
-	{
-		input.pop();
-		if (isOp(input.top()))
-			a = resolve(input);
-		else if (isNum(input.top()))
-			a = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
-		if (isOp(input.top()))
-			b = resolve(input);
-		else if (isNum(input.top()))
-			b = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
+	else if (op == '-')
 		res = b - a;
-	}
-	else if (input.top() == '*')
-	{
-		input.pop();
-		if (isOp(input.top()))
-			a = resolve(input);
-		else if (isNum(input.top()))
-			a = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
-		if (isOp(input.top()))
-			b = resolve(input);
-		else if (isNum(input.top()))
-			b = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
+	else if (op == '*')
 		res = b * a;
-	}
-	else if (input.top() == '/')
-	{
-		input.pop();
-		if (isOp(input.top()))
-			a = resolve(input);
-		else if (isNum(input.top()))
-			a = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
-		if (isOp(input.top()))
-			b = resolve(input);
-		else if (isNum(input.top()))
-			b = charToInt(input.top());
-		else
-		{} // error
-		input.pop();
+	else if (op == '/')
 		res = b / a;
-	}
 	return (res);
 }
 
@@ -130,13 +118,15 @@ int main(int argc, char **argv)
 	std::stack<char> input;
 	if (argc == 1)
 		return (1);
-	parsInput(input, argv[1]);
-	// while(!input.empty()) {
-	// 	std::cout << input.top() << "\n";
-	// 	input.pop();
-	// }
-	//add error handling
-	res = resolve(input);
-	std::cout << res << std::endl;
+	try
+	{
+		parsInput(input, argv[1]);
+		res = resolve(input);
+		std::cout << res << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << e.what() << '\n';
+	}
 	return (0);
 }
