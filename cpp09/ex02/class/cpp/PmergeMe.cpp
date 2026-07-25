@@ -46,7 +46,6 @@ bool vvpCheckSize(t_vvp &vvp)
 {
 	for (t_vvp::iterator it = vvp.begin(); it != vvp.end(); it++)
 	{
-		std::cout << "vvpcheck size" <<  it->size() << std::endl;
 		if (it->size() > 1)
 			return (false);
 	}
@@ -90,14 +89,20 @@ t_vvp splitVvp(t_vvp &vvp)
 t_vvp mergeBig(t_vvp &vvp)
 {
 	//display
+	std::cout << "\n";
 	for (t_vvp::iterator it1 = vvp.begin(); it1 != vvp.end(); it1++)
 	{
-		std::cout << "[";
+		std::cout << " [";
 		for (std::vector<t_pair>::iterator it = it1->begin(); it != it1->end(); it++)
-			std::cout << "(" << it->s << ", " << it->b << ") ";
+			std::cout << "(" << it->s << ", " << it->b << ")";
 		std::cout << "] ";
 	}
 	std::cout << "\n";
+	if (vvpCheckSize(vvp) == false)
+	{
+		t_vvp vvps = splitVvp(vvp);
+		vvp = mergeBig(vvps);
+	}
 	return (vvp);
 }
 
@@ -108,12 +113,6 @@ void PmergeMe::sort()
 	std::cout << "<- base input\n";
 	t_vvp newVvp;
 	newVvp.push_back(array);
-	for (t_vvp::iterator it1 = newVvp.begin(); it1 != newVvp.end(); it1++)
-	{
-		std::cout << "[";
-		for (std::vector<t_pair>::iterator it = it1->begin(); it != it1->end(); it++)
-			std::cout << "(" << it->s << ", " << it->b << ") ";
-		std::cout << "] ";
-	}
+	mergeBig(newVvp);
 	//mergeBig(newVvp);
 }
