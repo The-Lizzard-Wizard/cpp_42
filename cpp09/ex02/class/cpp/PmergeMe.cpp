@@ -98,11 +98,52 @@ t_vvp mergeBig(t_vvp &vvp)
 		std::cout << "] ";
 	}
 	std::cout << "\n";
+	t_vvp vvps = splitVvp(vvp);
 	if (vvpCheckSize(vvp) == false)
 	{
-		t_vvp vvps = splitVvp(vvp);
-		vvp = mergeBig(vvps);
+		vvps = mergeBig(vvps); //fuck
 	}
+	//                   .
+	//ca s'est bien :)) /|
+	//                 / \ 
+	//                  |    |
+	//                  |    |
+	//                  |    |
+	// ça s'est de la merde \ /
+	//                      |/
+	//                      '
+	// for (t_vvp::iterator it = vvp.begin(); it != vvp.end(); it++)
+	// {
+	// 	int size = it->size();
+	// 	it->clear();
+	// 	for (int i = 0; i < size; i++)
+	// 	{
+	// 		t_pair best = vvps.begin()->back();
+	// 		t_vvp::iterator saveIts = vvps.begin();
+	// 		for (t_vvp::iterator its = vvps.begin(); its != vvps.end(); its++)
+	// 		{
+	// 			if (its->begin()->b < best.b)
+	// 			{
+	// 				best = *its->begin();
+	// 				saveIts = its;
+	// 			}
+	// 		}
+	// 		saveIts->erase(saveIts->begin());
+	// 		if (saveIts->size() == 0)
+	// 			vvps.erase(saveIts);
+	// 		it->push_back(best);
+	// 	}
+	// }
+	//display
+	std::cout << "\n";
+	for (t_vvp::iterator it1 = vvp.begin(); it1 != vvp.end(); it1++)
+	{
+		std::cout << " [";
+		for (std::vector<t_pair>::iterator it = it1->begin(); it != it1->end(); it++)
+			std::cout << "(" << it->s << ", " << it->b << ")";
+		std::cout << "] ";
+	}
+	std::cout << "\n";
 	return (vvp);
 }
 
