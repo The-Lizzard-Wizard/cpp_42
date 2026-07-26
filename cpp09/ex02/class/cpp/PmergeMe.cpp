@@ -103,37 +103,62 @@ t_vvp mergeBig(t_vvp &vvp)
 	{
 		vvps = mergeBig(vvps); //fuck
 	}
-	//                   .
-	//ca s'est bien :)) /|
-	//                 / \ 
-	//                  |    |
-	//                  |    |
-	//                  |    |
-	// ça s'est de la merde \ /
-	//                      |/
-	//                      '
-	// for (t_vvp::iterator it = vvp.begin(); it != vvp.end(); it++)
-	// {
-	// 	int size = it->size();
-	// 	it->clear();
-	// 	for (int i = 0; i < size; i++)
-	// 	{
-	// 		t_pair best = vvps.begin()->back();
-	// 		t_vvp::iterator saveIts = vvps.begin();
-	// 		for (t_vvp::iterator its = vvps.begin(); its != vvps.end(); its++)
-	// 		{
-	// 			if (its->begin()->b < best.b)
-	// 			{
-	// 				best = *its->begin();
-	// 				saveIts = its;
-	// 			}
-	// 		}
-	// 		saveIts->erase(saveIts->begin());
-	// 		if (saveIts->size() == 0)
-	// 			vvps.erase(saveIts);
-	// 		it->push_back(best);
-	// 	}
-	// }
+	else
+		return (vvps);
+	//    .
+	//   /|
+	//  / |                  ça s'est de la merde
+	//   |                     |
+	//   |                     |
+	//   |                     |
+	// ça s'est bien :))      \ /
+	//                        |/
+	//                        '
+	for (t_vvp::iterator it = vvp.begin(); it != vvp.end(); it++)
+	{
+		int size = it->size();
+		it->clear();
+		if (size == 1)
+		{
+			it->push_back(*vvps.begin()->begin());
+			vvps.erase(vvps.begin());
+		}
+		else
+		{
+			t_vvp::iterator itPart1 = vvps.begin();
+			t_vvp::iterator itPart2 = vvps.begin()++;
+			for (int i = 0; i < size; i++)
+			{
+				itPart1 = vvps.begin();
+				itPart2 = itPart1++;
+				if (itPart1->size() > 0 && itPart2->size() > 0)
+				{
+					if (itPart1->begin()->b < itPart2->begin()->b)
+					{
+						it->push_back(*itPart1->begin());
+						itPart1->erase(itPart1->begin());
+					}
+					else
+					{
+						it->push_back(*itPart2->begin());
+						itPart2->erase(itPart2->begin());
+					}
+				}
+				else if (itPart1->size() > 0)
+				{
+					it->push_back(*itPart1->begin());
+					itPart1->erase(itPart1->begin());
+				}
+				else if (itPart2->size() > 0)
+				{
+					it->push_back(*itPart2->begin());
+					itPart2->erase(itPart2->begin());
+				}
+			}
+			vvps.erase(vvps.begin());
+			vvps.erase(vvps.begin());
+		}
+	}
 	//display
 	std::cout << "\n";
 	for (t_vvp::iterator it1 = vvp.begin(); it1 != vvp.end(); it1++)
