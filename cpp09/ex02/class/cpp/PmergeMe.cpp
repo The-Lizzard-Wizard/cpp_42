@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdlib>
 #include <iostream>
+#include <cmath>
 
 PmergeMe::PmergeMe(char **str_array, int argc)
 {
@@ -138,6 +139,26 @@ void displayVvp(t_vvp &vvp)
 	std::cout << "\n";
 }
 
+int jacob(int index)
+{
+	int a = 1;
+	int b = 3;
+	if (index == 0)
+		return (a);
+	else if (index == 1)
+		return (b);
+	else
+	{
+		for (int i = 1; i < index; i++)
+		{
+			int tmp = b;
+			b = b + (a * 2);
+			a = tmp;
+		}
+	}
+	return (b);
+}
+
 t_vvp sort(t_vvp array)
 {
 	displayVvp(array);
@@ -223,7 +244,38 @@ t_vvp sort(t_vvp array)
 
 	//binary insertion sort here=========
 
-
+	int insert_index = 0;
+	int jacob_index = 1;
+	while (insert_index < (int)pend.size())
+	{
+		//CA CA MARCH PAS==== (le for)
+		for (t_vvp::iterator it = pend.begin() + insert_index; it != (pend.begin() + insert_index + (jacob(jacob_index) - 1)); it++)
+		{
+			//binary search
+			std::cout << ":))\n";
+			displayVvp(main);
+			int high = std::pow(2, jacob_index + 1) - 1;
+			int low = 0;
+			int mid = low + (high - low) / 2;
+			while (low <= high)
+			{
+				mid = low + (high - low) / 2;
+				std::cout << "jacob : " << jacob(jacob_index) << "jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << std::endl;
+				if (main[mid].back().b < it->back().b)
+					low = mid + 1;
+				if (main[mid].back().b > it->back().b)
+					high = mid - 1;
+			}
+			if (main[mid].back().b < it->back().b)
+				main.insert(main.begin() + (mid + 1), *it);
+			if (main[mid].back().b > it->back().b)
+				main.insert(main.begin() + mid, *it);
+			std::cout << "main at the insertion step : ";
+			displayVvp(main);
+		}
+		insert_index = (jacob(jacob_index) - 1);
+		jacob_index++;
+	}
 
 	//===================================
 
@@ -238,5 +290,5 @@ t_vvp sort(t_vvp array)
 	std::cout << "==============================================" << std::endl;
 
 	//change cpy to main
-	return(cpy);
+	return(main);
 }
