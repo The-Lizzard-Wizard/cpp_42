@@ -30,5 +30,5 @@
 int main(int argc, char **argv)
 {
 	PmergeMe pmm(argv, argc);
-	pmm.sort();
+	t_vvp sa = sort(pmm.get_array());
 }

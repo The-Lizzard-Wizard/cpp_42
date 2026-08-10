@@ -13,6 +13,9 @@ typedef struct s_pair
 typedef std::vector<std::vector<t_pair> > t_vvp;
 typedef std::vector<t_pair> t_vp;
 
+#ifndef DEBUG
+# define DEBUG true
+#endif //DEBUG
 
 class PmergeMe
 {
@@ -21,9 +24,12 @@ class PmergeMe
 		PmergeMe(PmergeMe &src);
 		//operator =
 
-		void sort();
+		t_vvp get_array();
 	private:
-		std::vector<t_pair> array;
+		t_vvp array;
 };
+
+t_vvp sort(t_vvp array);
+void displayVvp(t_vvp &vvp);
 
 #endif // PMERGEME_HPP
