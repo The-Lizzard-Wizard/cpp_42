@@ -29,7 +29,7 @@ class PmergeMe
 		t_vvp array;
 };
 
-t_vvp sort(t_vvp array);
+t_vvp sort(t_vvp array, int index);
 void displayVvp(t_vvp &vvp);
 
 #endif // PMERGEME_HPP

@@ -15,6 +15,7 @@ PmergeMe::PmergeMe(char **str_array, int argc)
 		t_pair pair;
 		int a = std::atoi(str_array[i]);
 		int b = 0;
+		pair.one = false;
 		if ((int)i == argc - 1)
 			pair.one = true;
 		else
@@ -111,18 +112,6 @@ t_vp groupVp(t_vp part1, t_vp part2)
 		for (int i = 0; i < (int)part2.size(); i++)
 			group.push_back(part2[i]);
 	}
-	// std::cout << "group function p1 : ";
-	// for (std::vector<t_pair>::iterator it = part1.begin(); it != part1.end(); it++)
-	// 		std::cout << "(" << it->s << ", " << it->b << ")";
-	// std::cout << std::endl;
-	// std::cout << "group function p2 : ";
-	// for (std::vector<t_pair>::iterator it = part2.begin(); it != part2.end(); it++)
-	// 		std::cout << "(" << it->s << ", " << it->b << ")";
-	// std::cout << std::endl;
-	// std::cout << "group function output : ";
-	// for (std::vector<t_pair>::iterator it = group.begin(); it != group.end(); it++)
-	// 		std::cout << "(" << it->s << ", " << it->b << ")";
-	// std::cout << std::endl;
 	return (group);
 }
 
@@ -133,7 +122,12 @@ void displayVvp(t_vvp &vvp)
 	{
 		std::cout << " [";
 		for (std::vector<t_pair>::iterator it = it1->begin(); it != it1->end(); it++)
-			std::cout << "(" << it->s << ", " << it->b << ")";
+		{
+			if (it->one == false)
+				std::cout << "(" << it->s << ", " << it->b << ")";
+			else
+				std::cout << "(" << it->b << ")";
+		}
 		std::cout << "] ";
 	}
 	std::cout << "\n";
@@ -159,46 +153,11 @@ int jacob(int index)
 	return (b);
 }
 
-t_vvp sort(t_vvp array)
+t_vvp insert_sort(t_vvp insert_array)
 {
-	displayVvp(array);
-	t_vvp newArray;
-	t_vvp insert_array;
-	if (vvpCheckSize(array))
-	{
-		for (int i = 0; i < (int)array.size(); i++)
-		{
-			if (array.size() >= 2 && array[i].size() == array[i + 1].size())
-			{
-				t_vp p1 = array[i];
-				t_vp p2 = array[i + 1];
-				t_vp group = groupVp(p1, p2);
-				array.erase(array.begin());
-				array.erase(array.begin());
-				i = -1;
-				newArray.push_back(group);
-			}
-			else
-			{
-				newArray.push_back(array[i]);
-				array.erase(array.begin());
-				i = -1;
-			}
-		}
-		insert_array = sort(newArray);
-		insert_array = splitVvp(insert_array);
-	}
-	else
-	{
-		insert_array = array;
-		insert_array = splitVvp(insert_array);
-	}
-	//insertion
 	std::cout << "====================insert====================" << std::endl;
 	std::cout << "unsorted : ";
 	displayVvp(insert_array);
-	//TMP ================================
-	t_vvp cpy = insert_array;
 
 	t_vvp sorted;
 	t_vvp main;
@@ -246,34 +205,41 @@ t_vvp sort(t_vvp array)
 
 	int insert_index = 0;
 	int jacob_index = 1;
-	while (insert_index < (int)pend.size())
+	while ((insert_index - 1) < (int)pend.size())
 	{
-		//CA CA MARCH PAS==== (le for)
-		for (t_vvp::iterator it = pend.begin() + insert_index; it != (pend.begin() + insert_index + (jacob(jacob_index) - 1)); it++)
+		for (t_vvp::iterator it = pend.begin() + insert_index;
+				(it != (pend.begin() + insert_index + (jacob(jacob_index) - 1)) && it != pend.end()); it++)
 		{
 			//binary search
-			std::cout << ":))\n";
 			displayVvp(main);
 			int high = std::pow(2, jacob_index + 1) - 1;
 			int low = 0;
 			int mid = low + (high - low) / 2;
+			if (high >= (int)main.size())
+				high = main.size() - 1;
 			while (low <= high)
 			{
 				mid = low + (high - low) / 2;
-				std::cout << "jacob : " << jacob(jacob_index) << "jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << std::endl;
+				std::cout << "range : " << high << " jacob : " << jacob(jacob_index) << " jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << " at low : " << main[low].back().b << " at high : " << main[high].back().b << " at mid : " << main[mid].back().b << std::endl;
 				if (main[mid].back().b < it->back().b)
 					low = mid + 1;
 				if (main[mid].back().b > it->back().b)
 					high = mid - 1;
 			}
 			if (main[mid].back().b < it->back().b)
+			{
+				std::cout << "insert " << it->back().b << " at right of " << main[mid].back().b << " mid is " << mid << std::endl;
 				main.insert(main.begin() + (mid + 1), *it);
+			}
 			if (main[mid].back().b > it->back().b)
+			{
+				std::cout << "insert " << it->back().b << " at left of " << main[mid].back().b << " mid is " << mid << std::endl;
 				main.insert(main.begin() + mid, *it);
+			}
 			std::cout << "main at the insertion step : ";
 			displayVvp(main);
 		}
-		insert_index = (jacob(jacob_index) - 1);
+		insert_index = (jacob(jacob_index));
 		jacob_index++;
 	}
 
@@ -289,6 +255,93 @@ t_vvp sort(t_vvp array)
 	displayVvp(main);
 	std::cout << "==============================================" << std::endl;
 
-	//change cpy to main
 	return(main);
+}
+
+t_vvp convert_to_simple_num(t_vvp array)
+{
+	t_vvp new_array;
+
+	for (t_vvp::iterator it = array.begin(); it != array.end(); it++)
+	{
+		if (it->back().one == false)
+		{
+			t_vp vp1;
+			t_pair p1;
+			p1.b = it->back().s;
+			p1.s = 0;
+			p1.one = true;
+			vp1.push_back(p1);
+
+			t_vp vp2;
+			t_pair p2;
+			p2.b = it->back().b;
+			p2.s = 0;
+			p2.one = true;
+			vp2.push_back(p2);
+
+			new_array.push_back(vp1);
+			new_array.push_back(vp2);
+		}
+		else
+		{
+			t_vp vp2;
+			t_pair p2;
+			p2.b = it->back().b;
+			p2.s = 0;
+			p2.one = true;
+			vp2.push_back(p2);
+
+			new_array.push_back(vp2);
+		}
+	}
+
+	return (new_array);
+}
+
+t_vvp sort(t_vvp array, int index)
+{
+	displayVvp(array);
+	t_vvp newArray;
+	t_vvp insert_array;
+	if (vvpCheckSize(array))
+	{
+		for (int i = 0; i < (int)array.size(); i++)
+		{
+			if (array.size() >= 2 && array[i].size() == array[i + 1].size())
+			{
+				t_vp p1 = array[i];
+				t_vp p2 = array[i + 1];
+				t_vp group = groupVp(p1, p2);
+				array.erase(array.begin());
+				array.erase(array.begin());
+				i = -1;
+				newArray.push_back(group);
+			}
+			else
+			{
+				newArray.push_back(array[i]);
+				array.erase(array.begin());
+				i = -1;
+			}
+		}
+		insert_array = sort(newArray, index + 1);
+		insert_array = splitVvp(insert_array);
+	}
+	else
+	{
+		insert_array = array;
+		insert_array = splitVvp(insert_array);
+	}
+	//insertion
+	t_vvp main;
+	if (index != 1)
+		main = insert_sort(insert_array);
+	else
+	{
+		t_vvp s_n_array = convert_to_simple_num(insert_array);
+		displayVvp(s_n_array);
+		main = insert_sort(s_n_array);
+	}
+	return (main);
 }
