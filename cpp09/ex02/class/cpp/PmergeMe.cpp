@@ -204,11 +204,14 @@ t_vvp insert_sort(t_vvp insert_array)
 	//binary insertion sort here=========
 
 	int insert_index = 0;
-	int jacob_index = 1;
-	while ((insert_index - 1) < (int)pend.size())
+	int jacob_index = 0;
+	while ((insert_index) < (int)pend.size())
 	{
-		for (t_vvp::iterator it = pend.begin() + insert_index;
-				(it != (pend.begin() + insert_index + (jacob(jacob_index) - 1)) && it != pend.end()); it++)
+		t_vvp::iterator it = pend.begin() + (insert_index + jacob(jacob_index));
+		if ((insert_index + jacob(jacob_index)) > (int)pend.size())
+			it = pend.end() - 1;
+		for (;it >= pend.begin() + insert_index;
+		it--)
 		{
 			//binary search
 			displayVvp(main);
@@ -221,6 +224,8 @@ t_vvp insert_sort(t_vvp insert_array)
 			{
 				mid = low + (high - low) / 2;
 				std::cout << "range : " << high << " jacob : " << jacob(jacob_index) << " jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << " at low : " << main[low].back().b << " at high : " << main[high].back().b << " at mid : " << main[mid].back().b << std::endl;
+				if (main[mid].back().b == it->back().b)
+					break;
 				if (main[mid].back().b < it->back().b)
 					low = mid + 1;
 				if (main[mid].back().b > it->back().b)
@@ -231,13 +236,15 @@ t_vvp insert_sort(t_vvp insert_array)
 				std::cout << "insert " << it->back().b << " at right of " << main[mid].back().b << " mid is " << mid << std::endl;
 				main.insert(main.begin() + (mid + 1), *it);
 			}
-			if (main[mid].back().b > it->back().b)
+			if (main[mid].back().b >= it->back().b)
 			{
 				std::cout << "insert " << it->back().b << " at left of " << main[mid].back().b << " mid is " << mid << std::endl;
 				main.insert(main.begin() + mid, *it);
 			}
 			std::cout << "main at the insertion step : ";
 			displayVvp(main);
+			std::cout << "index " << insert_index << " pend at the insertion step : ";
+			displayVvp(pend);
 		}
 		insert_index = (jacob(jacob_index));
 		jacob_index++;
