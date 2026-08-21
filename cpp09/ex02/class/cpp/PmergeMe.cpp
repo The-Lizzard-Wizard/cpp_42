@@ -238,41 +238,47 @@ t_vvp insert_sort(t_vvp insert_array)
 			// 	if (main[mid].back().b > it->back().b)
 			// 		high = mid - 1;
 			// }
-			// if (main[mid].back().b < it->back().b)
+			// if (main[low].back().b <= it->back().b)
 			// {
 			// 	std::cout << "insert " << it->back().b << " at right of " << main[mid].back().b << " mid is " << mid << std::endl;
-			// 	main.insert(main.begin() + (mid + 1), *it);
+			// 	main.insert(main.begin() + (low + 1), *it);
 			// }
-			// if (main[mid].back().b >= it->back().b)
+			// if (main[low].back().b > it->back().b)
 			// {
 			// 	std::cout << "insert " << it->back().b << " at left of " << main[mid].back().b << " mid is " << mid << std::endl;
-			// 	main.insert(main.begin() + mid, *it);
+			// 	main.insert(main.begin() + low, *it);
 			// }
 
 			int low = 0;
 			int high = pow(2, jacob_index + 1) - 1;
-			int the_mid = 0;
 
 			while (low <= high)
 			{
 				int mid = low + (high - low) / 2;
 
+				if (mid >= (int)main.size())
+				{
+					low = mid;
+					break ;
+				}
 				if (main[mid].back().b < it->back().b)
 					low = mid + 1;
 				else
 					high = mid - 1;
-				the_mid = mid;
 			}
-
-			if (main[the_mid].back().b < it->back().b)
+			std::cout << low << std::endl;
+			if (low >= (int)main.size())
+				low = main.size() - 1;
+			std::cout << low << std::endl;
+			if (main[low].back().b < it->back().b)
 			{
-				std::cout << "insert " << it->back().b << " at right of " << main[the_mid].back().b << " mid is " << the_mid << std::endl;
-				main.insert(main.begin() + (the_mid + 1), *it);
+				std::cout << "insert " << it->back().b << " at right of " << main[low].back().b << " mid is " << low << std::endl;
+				main.insert(main.begin() + (low + 1), *it);
 			}
-			if (main[the_mid].back().b >= it->back().b)
+			if (main[low].back().b >= it->back().b)
 			{
-				std::cout << "insert " << it->back().b << " at left of " << main[the_mid].back().b << " mid is " << the_mid << std::endl;
-				main.insert(main.begin() + the_mid, *it);
+				std::cout << "insert " << it->back().b << " at left of " << main[low].back().b << " mid is " << low << std::endl;
+				main.insert(main.begin() + low, *it);
 			}
 			//main.insert(main.begin() + low, *it);
 
