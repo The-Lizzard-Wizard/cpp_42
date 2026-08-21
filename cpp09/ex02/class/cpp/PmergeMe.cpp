@@ -164,10 +164,17 @@ t_vvp insert_sort(t_vvp insert_array)
 	t_vvp pend;
 	t_vvp non_part;
 	int size;
+	bool first_one = false;
 	if (insert_array.size() > 0)
+	{
 		size = insert_array.begin()->size();
+		first_one = insert_array.begin()->begin()->one;
+	}
 	else
+	{
 		size = 0;
+		first_one = false;
+	}
 	int mod = 0;
 	bool non_part_bool = false;
 	//init main and pend
@@ -180,7 +187,7 @@ t_vvp insert_sort(t_vvp insert_array)
 		for (t_vvp::iterator it = insert_array.begin(); it != insert_array.end(); it++)
 		{
 			mod++;
-			if ((int)it->size() != size)
+			if ((int)it->size() != size || (first_one == false && it->begin()->one == true))
 				non_part_bool = true;
 			if (non_part_bool == false)
 			{
@@ -207,40 +214,68 @@ t_vvp insert_sort(t_vvp insert_array)
 	int jacob_index = 0;
 	while ((insert_index) < (int)pend.size())
 	{
-		t_vvp::iterator it = pend.begin() + (insert_index + jacob(jacob_index));
-		if ((insert_index + jacob(jacob_index)) > (int)pend.size())
+		t_vvp::iterator it = pend.begin() + (jacob(jacob_index) - 1);
+		if ((jacob(jacob_index) - 1) >= (int)pend.size())
 			it = pend.end() - 1;
 		for (;it >= pend.begin() + insert_index;
 		it--)
 		{
 			//binary search
 			displayVvp(main);
-			int high = std::pow(2, jacob_index + 1) - 1;
+			// int high = std::pow(2, jacob_index + 1) - 1;
+			// int low = 0;
+			// int mid = low + (high - low) / 2;
+			// if (high >= (int)main.size())
+			// 	high = main.size() - 1;
+			// while (low <= high)
+			// {
+			// 	mid = low + (high - low) / 2;
+			// 	std::cout << "range : " << high << " jacob : " << jacob(jacob_index) << " jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << " at low : " << main[low].back().b << " at high : " << main[high].back().b << " at mid : " << main[mid].back().b << std::endl;
+			// 	if (main[mid].back().b == it->back().b)
+			// 		break;
+			// 	if (main[mid].back().b < it->back().b)
+			// 		low = mid + 1;
+			// 	if (main[mid].back().b > it->back().b)
+			// 		high = mid - 1;
+			// }
+			// if (main[mid].back().b < it->back().b)
+			// {
+			// 	std::cout << "insert " << it->back().b << " at right of " << main[mid].back().b << " mid is " << mid << std::endl;
+			// 	main.insert(main.begin() + (mid + 1), *it);
+			// }
+			// if (main[mid].back().b >= it->back().b)
+			// {
+			// 	std::cout << "insert " << it->back().b << " at left of " << main[mid].back().b << " mid is " << mid << std::endl;
+			// 	main.insert(main.begin() + mid, *it);
+			// }
+
 			int low = 0;
-			int mid = low + (high - low) / 2;
-			if (high >= (int)main.size())
-				high = main.size() - 1;
+			int high = pow(2, jacob_index + 1) - 1;
+			int the_mid = 0;
+
 			while (low <= high)
 			{
-				mid = low + (high - low) / 2;
-				std::cout << "range : " << high << " jacob : " << jacob(jacob_index) << " jacob index : " << jacob_index << " to insert : " << it->back().b << " low : " << low << " high : " << high << " mid : " << mid << " at low : " << main[low].back().b << " at high : " << main[high].back().b << " at mid : " << main[mid].back().b << std::endl;
-				if (main[mid].back().b == it->back().b)
-					break;
+				int mid = low + (high - low) / 2;
+
 				if (main[mid].back().b < it->back().b)
 					low = mid + 1;
-				if (main[mid].back().b > it->back().b)
+				else
 					high = mid - 1;
+				the_mid = mid;
 			}
-			if (main[mid].back().b < it->back().b)
+
+			if (main[the_mid].back().b < it->back().b)
 			{
-				std::cout << "insert " << it->back().b << " at right of " << main[mid].back().b << " mid is " << mid << std::endl;
-				main.insert(main.begin() + (mid + 1), *it);
+				std::cout << "insert " << it->back().b << " at right of " << main[the_mid].back().b << " mid is " << the_mid << std::endl;
+				main.insert(main.begin() + (the_mid + 1), *it);
 			}
-			if (main[mid].back().b >= it->back().b)
+			if (main[the_mid].back().b >= it->back().b)
 			{
-				std::cout << "insert " << it->back().b << " at left of " << main[mid].back().b << " mid is " << mid << std::endl;
-				main.insert(main.begin() + mid, *it);
+				std::cout << "insert " << it->back().b << " at left of " << main[the_mid].back().b << " mid is " << the_mid << std::endl;
+				main.insert(main.begin() + the_mid, *it);
 			}
+			//main.insert(main.begin() + low, *it);
+
 			std::cout << "main at the insertion step : ";
 			displayVvp(main);
 			std::cout << "index " << insert_index << " pend at the insertion step : ";
@@ -315,7 +350,7 @@ t_vvp sort(t_vvp array, int index)
 	{
 		for (int i = 0; i < (int)array.size(); i++)
 		{
-			if (array.size() >= 2 && array[i].size() == array[i + 1].size())
+			if (array.size() >= 2 && (array[i].size() == array[i + 1].size() && array[i + 1].begin()->one == false))
 			{
 				t_vp p1 = array[i];
 				t_vp p2 = array[i + 1];
