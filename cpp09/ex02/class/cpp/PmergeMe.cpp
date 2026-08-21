@@ -251,6 +251,8 @@ t_vvp insert_sort(t_vvp insert_array)
 
 			int low = 0;
 			int high = pow(2, jacob_index + 1) - 1;
+			if (high > (int)main.size())
+				high = (int)main.size() - 1;
 
 			while (low <= high)
 			{
