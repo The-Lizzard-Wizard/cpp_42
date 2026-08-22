@@ -278,7 +278,7 @@ t_vvp insert_sort(t_vvp insert_array)
 				main.insert(main.begin() + (low + 1), *it);
 			}
 			if (main[low].back().b >= it->back().b)
-			{
+			{ 
 				std::cout << "insert " << it->back().b << " at left of " << main[low].back().b << " mid is " << low << std::endl;
 				main.insert(main.begin() + low, *it);
 			}
@@ -354,7 +354,7 @@ t_vvp sort(t_vvp array, int index)
 	displayVvp(array);
 	t_vvp newArray;
 	t_vvp insert_array;
-	if (vvpCheckSize(array))
+	if (array.size() != 2 && vvpCheckSize(array))
 	{
 		for (int i = 0; i < (int)array.size(); i++)
 		{
